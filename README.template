@@ -81,25 +81,17 @@ using this we were able to verify that not only did the code work but it optimis
 
 ## Known Bugs - Caleb
 
-List known bugs that you weren't able to fix (or ran out of time to fix).
 The code is missing a lot of error handling checks and will break without explanation if the input is not given in an exact format. There are also performance gains
 that could be implemented by using fewer threads on small inputs where the overhead of multithreading outweighs the benefit. A threshold could be researched and
 implemented, allowing faster processing of smaller inputs.
 
 ## Reflection and Self Assessment - Caleb
 
-Discuss the issues you encountered during development and testing. What
-problems did you have? What did you have to research and learn on your own?
-What kinds of errors did you get? How did you fix them?
 We attempted to implement the mergesort in parallel from the beginning which made early bug fixing quite difficult. In particular the segmentation faults and off by 1
 error we experienced were very difficult to debug as our attempts to print out information caused race conditions between the threads. To fix this we ran our 
 implementation in as a single threaded program and we were able to diagnose the issue as a fault in our array indexes. We did research methods of handling errors in 
 parallel programs but decided it would be easiest to simply fix it as a single threaded program. To solve the issue, inside of the merge function we had to save the 
 value of leftstart to two different variables and increment them separately.
-
-What parts of the project did you find challenging? Is there anything that
-finally "clicked" for you in the process of working on this project? How well
-did the development and testing process go for you?
 
 The parts of the program we found challenging were mostly due to the difficulty in visualising how we could use parallelisation and recursion effectively. Looking at the
 Geeks for Geeks and Medium articles linked below the concepts started to click and we were able to sketch out a general idea for implementing it. None of us had used the
@@ -107,11 +99,6 @@ C threads library either so we had to refer to the pthreads documentation below 
 been smoother had we built the program up starting from single threaded mergesort and later extending it with parallelisation. 
 
 ## Sources Used - Caleb
-
-If you used any sources outside of the textbook, you should list them here. 
-If you looked something up on stackoverflow.com or you use help from AI, and 
-fail to cite it in this section, it will be considered plagiarism and dealt 
-with accordingly. So be safe CITE!
 
 Single threaded merge sort implementation:
 https://www.geeksforgeeks.org/dsa/merge-sort/
