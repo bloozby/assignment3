@@ -105,6 +105,18 @@ int check_if_sorted(int A[], int n)
 	return TRUE;
 }
 
+// this function mimics the logic in the other file to verify segment sizes
+void printSegmentSizes(int left, int right) {
+    if (left >= right) {
+        printf("Segment size: %d\n", right - left + 1);
+        return;
+    }
+    int mid = left + (right - left) / 2;
+    printf("Segment size: %d\n", right - left + 1);
+    printSegmentSizes(left, mid);
+    printSegmentSizes(mid + 1, right);
+}
+
 /* this function prints A, but we only print the first 100 elements */
 void printA(void){
 	int i;
@@ -145,8 +157,25 @@ int main(int argc, char **argv) {
 	A = (int *) malloc(sizeof(int) * n);
 	B = (int *) malloc(sizeof(int) * n);
 
+
+	//random /or edge cases
+
 	// generate random input
 	generate_random_array(A, n, seed);
+
+	//1. generate small array
+
+	// 2. Test with all elements equal
+	//int i;
+    //for (i = 0; i < n; i++) A[i] = 42;
+
+    // 3. Test with already sorted array
+    //for (i = 0; i < n; i++) A[i] = i;
+
+    // 4. Test with reverse sorted array
+    //for (i = 0; i < n; i++) A[i] = n - i;
+
+    // 5. Generate large array
 
 	double start_time;
 	double sorting_time;
@@ -171,6 +200,8 @@ int main(int argc, char **argv) {
 		free(A);
 		exit(EXIT_FAILURE);
 	}
+	//printf("Overall segment sizes after sorting:\n"); //verify segments
+	//printSegmentSizes(0, n-1);
 	/* Now we can free the memory for the two arrays, as well as free memory for arg. */
 	free(arg);
 	free(B);

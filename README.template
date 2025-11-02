@@ -7,15 +7,20 @@ README.template
 
 ## Overview - James
 
-Concisely explain what the program does. If this exceeds a couple of
-sentences, you're going too far. Generally, you should be pulling this
-right from the project specification. We don't want you to just cut and
-paste, but paraphrase what is stated in the project specification.
+This program uses C to implement a recursive sorting algorithm using parallelism and pthreads. 
+This algorithm is divided up to a specified cutoff level, where the array is divided and sorted in parallel accross multiple threads.
+the sorted segments are then merged to produce a fully sorted array. the main aim of this project is to increase the performance of a standard sorting algorithm through the use of multi-core processors.
 
 ## Manifest - James
 
-A listing of source files and other non-generated files, and a brief
-(one-line) explanation of the purpose of each file.
+mergesort.h | Declares functions, constants, and data structures. these are used for thread creation and mergesort.
+
+mergesort.c | This file contains the core implementation, including thread management, recursive sort functions and merging routes. 
+
+
+test-mergesort.c | This file is used for testing the merge sort function. it does this by generating input arrays, sorting, measuring execution time, and verifying correctness.
+
+Makefile | Automates compilation and linking of source files into the executable test-mergesort.
 
 
 ## Building the project - Rhett
@@ -32,9 +37,34 @@ instruct the user how to use your program.
 
 ## Testing - James
 
-This section should detail how you tested your code. Simply stating "I ran
-it a few times and it seems to work" is not sufficient. Your testing needs
-to be detailed here.
+In the test file the function printSegmentSizes() was created to mimic the mergesort segmentation. this can be then used to visually verify recursion.
+Then in the mergesort file (now commented out) thread verification methods were implemented. Note the introduction of a sorted check pre merging.
+notably: creation verification and information, merge verification.
+
+from this a generated output such as:
+./test-mergesort 40 4 1234
+Level 0: creating threads for array segment [0..39]
+Thread 140173648865088: Level 0, creating thread for segment [0..39]
+Level 1: creating threads for array segment [0..19]
+Thread 140173648860864: Level 1, creating thread for segment [0..19]
+Level 1: creating threads for array segment [20..39]
+Thread 140173640468160: Level 1, creating thread for segment [20..39]
+Segment [0..19] verified sorted by thread 140173648860864.
+Segment [20..39] verified sorted by thread 140173640468160.
+Segment [0..39] verified sorted by thread 140173648865088.
+Sorting 40 elements took 0.00 seconds.
+
+Here we verify the parrallellism of the mergesort.
+verification of the actual mergesort algorithm is done by a simple call of the check_if_sorted(int A[], int n) function iterating through the array to confirm sort.
+
+to verify the program, edge cases were ran:
+Minimal input size: ./test-mergesort 2 0 1234
+empty array/ too small: ./test-mergesort 1 0 1234
+Test with all elements equal: for (i = 0; i < n; i++) A[i] = 42;
+Test with already sorted: (i = 0; i < n; i++) A[i] = i; i.e. best case
+Test with reverse sorted array: for (i = 0; i < n; i++) A[i] = n - i; i.e. worst case
+
+using this we were able to verify that not only did the code work but it optimised complexity. interestgly to note if pre sorted, thread allocation is actually slower.
 
 ## Known Bugs - Caleb
 
